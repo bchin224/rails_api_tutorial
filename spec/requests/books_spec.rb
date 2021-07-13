@@ -47,4 +47,36 @@ describe 'Books API', type: :request do
             expect(response).to have_http_status(:no_content)
         end
     end
+
+    it 'returns a subset of books based on limit' do
+        get '/api/v1/books', params: { limit: 1 }
+
+        expect(response).to have_http_status(:created)
+        expect(Author.count).to eq(1)
+        expect(JSON.parse(response.body)).to eq(
+            {
+                'id': 1,
+                'title': 'The Martian',
+                'author_name': 'Andy Weir',
+                'kauthor_age': 48
+            }
+        )
+    end
+
+    it 'returns a subset of books on limit and offset' do
+        get '/api/v1/books', params: { limit: 1, offsetL 1 } 
+
+        expect(response).to have_http_status(:created)
+        expect(Author.count).to eq(1)
+        expect(JSON.parse(response.body)).to eq(
+            {
+                'id': 2,
+                'title': 'The Time Machine',
+                'author_name': 'H.G. Wells',
+                'kauthor_age': 78
+            }
+        )
+    end
+
+
 end

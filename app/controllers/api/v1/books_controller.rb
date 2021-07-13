@@ -2,7 +2,7 @@ module Api
   module V1
     class BooksController < ApplicationController  
       def index
-        books = Book.all
+        books = Book.limit(params[:limit]).offest(params[:offset])
 
         render json: BookRepresenter.new(books).as_json
       end
